@@ -3,18 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <img src="#">
+    <div id="mainContainer">
+  <img src="#"><p></p>
+  <button id="refreshB">New Image</button>
+    </div>
   <script>
-    const img = document.querySelector('img');
-    fetch('https://api.giphy.com/v1/gifs/translate?api_key=GZTq7Oba05OyppHq4Z3BKvFdVWU6TePg&s=cats', {mode: 'cors'})
+    let img = document.querySelector('img');
+    let refreshB = document.getElementById('refreshB');
+    let mainContainer = document.getElementById('mainContainer');
+    function refreshApi(){
+        fetch('https://api.giphy.com/v1/gifs/translate?api_key=GZTq7Oba05OyppHq4Z3BKvFdVWU6TePg&s=cats', {mode: 'cors'})
     .then(function(response) {
       return response.json();
     })
     .then(function(response) {
         img.src = response.data.images.original.url;
-    });
+    }); 
+    
+    }
+    refreshApi();
+    refreshB.addEventListener("click", refreshApi);
   </script>
 </body>
 </html>
