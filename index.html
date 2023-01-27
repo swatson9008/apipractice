@@ -8,24 +8,72 @@
 <body>
     <div id="mainContainer">
   <img src="#"><p></p>
-  <button id="refreshB">New Image</button>
+  <button id="refreshB">New Image</button><p></p>
+  <form id="form" role="search">
+    <input type="search" id="imageSearch" name="q"
+     placeholder="Search images..."
+     aria-label="Sarch for an image">
+    <button id="searchB">Search</button>
+  </form>
     </div>
   <script>
     let img = document.querySelector('img');
     let refreshB = document.getElementById('refreshB');
     let mainContainer = document.getElementById('mainContainer');
-    function refreshApi(){
-        fetch('https://api.giphy.com/v1/gifs/translate?api_key=GZTq7Oba05OyppHq4Z3BKvFdVWU6TePg&s=cats', {mode: 'cors'})
+    let searchB = document.getElementById('searchB');
+    let imageField = document.getElementById('imageSearch');
+    imageField.defaultValue = 'cats';
+    function defaultApi(){
+    fetch('https://api.giphy.com/v1/gifs/translate?api_key=GZTq7Oba05OyppHq4Z3BKvFdVWU6TePg&s=cats', {mode: 'cors'})
     .then(function(response) {
       return response.json();
     })
     .then(function(response) {
         img.src = response.data.images.original.url;
-    }); 
+    })
+    .catch((error) => {
+        console.log('error');
+        alert('Please try again!')
+    })
+    } 
+    
+    defaultApi();
+    
+    function refreshApi(){
+        fetch(`https://api.giphy.com/v1/gifs/translate?api_key=GZTq7Oba05OyppHq4Z3BKvFdVWU6TePg&s=${imageField.value}`, {mode: 'cors'})
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(response) {
+        img.src = response.data.images.original.url;
+    })
+    .catch((error) => {
+        console.log('error');
+        alert('Please try again!')
+    })
     
     }
-    refreshApi();
     refreshB.addEventListener("click", refreshApi);
+    function searchImage(e){
+        e.preventDefault();
+        fetch(`https://api.giphy.com/v1/gifs/translate?api_key=GZTq7Oba05OyppHq4Z3BKvFdVWU6TePg&s=${imageField.value}`, {mode: 'cors'})
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(response) {
+        img.src = response.data.images.original.url;
+    })
+    .catch((error) => {
+        console.log('error');
+        alert('Please try again!')
+    })
+    }
+    searchB.addEventListener("click", (e) => searchImage(e));
+    //searchB.addEventListener("click", (e) => testing(e));
+    //function testing(e){
+        //e.preventDefault();
+        //console.log(imageField.value);
+    //}
   </script>
 </body>
 </html>
